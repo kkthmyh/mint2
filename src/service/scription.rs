@@ -128,12 +128,12 @@ impl<'a> InscriptionWithOutId<'a> {
             self.config.token_info.amt
         );
 
-        let gas_price_before = provider.get_gas_price().await.unwrap();
-        let gas_price_u64 = gas_price_before.as_u64();
-        let gas_price_u64 = (gas_price_u64 as f64 * 1.02) as u64;
-        let gas_price_after = U256::from(gas_price_u64);
-
         for i in 0..self.config.mint_info.amount {
+            let gas_price_before = provider.get_gas_price().await.unwrap();
+            let gas_price_u64 = gas_price_before.as_u64();
+            let gas_price_u64 = (gas_price_u64 as f64 * 1.1) as u64;
+            let gas_price_after = U256::from(gas_price_u64);
+
             let tx = TransactionRequest::new()
                 .to(self.config.account_info.address.parse::<Address>().unwrap())
                 .value(0)
@@ -155,7 +155,12 @@ impl<'a> InscriptionWithOutId<'a> {
                     // sleep(Duration::from_millis(100)).await;
                 }
                 Err(e) => {
-                    info!("***** 第 {} 次铭刻失败 {:?}, nonce:{} *****", i + 1, e, nonce);
+                    info!(
+                        "***** 第 {} 次铭刻失败 {:?}, nonce:{} *****",
+                        i + 1,
+                        e,
+                        nonce
+                    );
                     sleep(Duration::from_millis(200)).await;
                 }
             }
