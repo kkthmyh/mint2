@@ -6,7 +6,7 @@ https://learnblockchain.cn/article/5382
 
 ## 2、修改相关参数
 修改src/config.conf下的配置文件
-![](./img/read.png)
+![](./src/img/read.png)
 
 ## 3、运行
 ### 1、方式一
