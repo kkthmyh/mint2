@@ -131,7 +131,7 @@ impl<'a> InscriptionWithOutId<'a> {
         for i in 0..self.config.mint_info.amount {
             let gas_price_before = provider.get_gas_price().await.unwrap();
             let gas_price_u64 = gas_price_before.as_u64();
-            let gas_price_u64 = (gas_price_u64 as f64 * 1.1) as u64;
+            let gas_price_u64 = (gas_price_u64 as f64 * 1.07) as u64;
             let gas_price_after = U256::from(gas_price_u64);
 
             let tx = TransactionRequest::new()
@@ -146,10 +146,11 @@ impl<'a> InscriptionWithOutId<'a> {
             match pending_tx {
                 Ok(tx) => {
                     info!(
-                        "***** 第 {} 次铭刻成功: {:?}, nonce:{:?} *****",
+                        "***** 第 {} 次铭刻成功: {:?}, nonce:{:?} gas:{} *****",
                         i + 1,
                         tx.tx_hash(),
-                        nonce
+                        nonce,
+                        gas_price_after
                     );
                     nonce += U256::from(1);
                     // sleep(Duration::from_millis(100)).await;
